@@ -14,11 +14,13 @@ public class HorizontalSliderTest extends BaseTest {
         // Open the slider page
         sliderPage.open();
 
-        // Move the slider horizontally (50 pixels)
-        sliderPage.moveSliderByOffset(50);
+        // Set the slider value to 3.5
+        sliderPage.setSliderValue(3.5);
 
-        // Verify that the slider value has changed
-        String sliderValue = sliderPage.getSliderValue();
-        Assert.assertFalse(sliderValue.isEmpty(), "Slider value should have changed");
+        // Get actual slider value
+        double actualValue = sliderPage.getSliderValue();
+
+        // Assert the slider reached the correct value
+        Assert.assertEquals(actualValue, 3.5, "Slider value should be exactly 3.5");
     }
 }

@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.Keys;
 
 import java.time.Duration;
 
@@ -36,15 +37,16 @@ public class HorizontalSliderPage {
         return this;
     }
 
-    public HorizontalSliderPage moveSliderByOffset(int xOffset) {
-        actions.clickAndHold(slider)
-                .moveByOffset(xOffset, 0)
-                .release()
-                .perform();
+    public HorizontalSliderPage setSliderValue(double targetValue) {
+        slider.sendKeys(org.openqa.selenium.Keys.HOME);
+
+        while (Double.parseDouble(rangeValue.getText()) < targetValue) {
+            slider.sendKeys(org.openqa.selenium.Keys.ARROW_RIGHT);
+        }
         return this;
     }
 
-    public String getSliderValue() {
-        return rangeValue.getText();
+    public double getSliderValue() {
+        return Double.parseDouble(rangeValue.getText());
     }
 }

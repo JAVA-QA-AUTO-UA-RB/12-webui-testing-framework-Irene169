@@ -5,6 +5,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.openqa.selenium.Keys;
 import org.testng.annotations.Test;
 
 import java.time.Duration;
@@ -156,21 +157,15 @@ public class SeleniumTestngTest extends BasicSetupTest {
         WebElement slider = browser.findElement(By.cssSelector("input[type='range']"));
         WebElement value = browser.findElement(By.id("range"));
 
-        // Store initial slider value
-        String initialSliderValue = value.getText();
+        // reset slider to 0
+        slider.sendKeys(Keys.HOME);
 
-        // Move the slider using Actions
-        Actions actions = new Actions(browser);
-        actions.clickAndHold(slider)
-                .moveByOffset(50, 0) // horizontal move
-                .release()
-                .perform();
+        // move slider to 3.5
+        while (Double.parseDouble(value.getText()) < 3.5) {
+            slider.sendKeys(Keys.ARROW_RIGHT);
+        }
 
-        // Wait until the value element's text is not empty
-        new WebDriverWait(browser, Duration.ofSeconds(5))
-                .until(d -> !value.getText().isEmpty());
-
-        // Verify the value has changed
-        Assert.assertFalse(value.getText().isEmpty(), "Slider value should have changed");
+        double actualValue = Double.parseDouble(value.getText());
+        Assert.assertEquals(actualValue, 3.5, "Slider value should be exactly 3.5");
     }
 }

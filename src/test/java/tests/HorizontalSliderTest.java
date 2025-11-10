@@ -8,19 +8,17 @@ import pages.HorizontalSliderPage;
 public class HorizontalSliderTest extends BaseTest {
 
     @Test
-    public void horizontalSliderValueShouldChange() {
-        HorizontalSliderPage sliderPage = new HorizontalSliderPage(driver);
+    public void moveSliderTo() {
+        // Initialize HorizontalSliderPage
+        HorizontalSliderPage page = new HorizontalSliderPage(driver);
 
-        // Open the slider page
-        sliderPage.open();
+        // Open slider page
+        page.open();
 
-        // Set the slider value to 3.5
-        sliderPage.setSliderValue(3.5);
+        // Move slider to 3.5
+        page.moveSliderTo("3.5");
 
-        // Get actual slider value
-        double actualValue = sliderPage.getSliderValue();
-
-        // Assert the slider reached the correct value
-        Assert.assertEquals(actualValue, 3.5, "Slider value should be exactly 3.5");
+        // Validate the slider value
+        Assert.assertEquals(page.getValue(), "3.5");
     }
 }

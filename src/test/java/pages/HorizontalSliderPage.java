@@ -37,16 +37,24 @@ public class HorizontalSliderPage {
         return this;
     }
 
-    public HorizontalSliderPage setSliderValue(double targetValue) {
-        slider.sendKeys(org.openqa.selenium.Keys.HOME);
+    public HorizontalSliderPage moveSliderTo(String targetValue) {
 
-        while (Double.parseDouble(rangeValue.getText()) < targetValue) {
-            slider.sendKeys(org.openqa.selenium.Keys.ARROW_RIGHT);
+        slider.sendKeys(Keys.HOME);
+
+        while (!rangeValue.getText().equals(targetValue)) {
+            double current = Double.parseDouble(rangeValue.getText());
+            double target = Double.parseDouble(targetValue);
+
+            if (current < target) {
+                slider.sendKeys(Keys.ARROW_RIGHT);
+            } else {
+                slider.sendKeys(Keys.ARROW_LEFT);
+            }
         }
         return this;
     }
 
-    public double getSliderValue() {
-        return Double.parseDouble(rangeValue.getText());
+    public String getValue() {
+        return rangeValue.getText();
     }
 }

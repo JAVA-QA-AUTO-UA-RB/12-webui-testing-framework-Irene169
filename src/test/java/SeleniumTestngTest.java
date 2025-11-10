@@ -157,15 +157,33 @@ public class SeleniumTestngTest extends BasicSetupTest {
         WebElement slider = browser.findElement(By.cssSelector("input[type='range']"));
         WebElement value = browser.findElement(By.id("range"));
 
+        WebDriverWait wait = new WebDriverWait(browser, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.visibilityOf(slider));
+        wait.until(d -> !value.getText().isEmpty());
+
         // reset slider to 0
         slider.sendKeys(Keys.HOME);
 
-        // move slider to 3.5
-        while (Double.parseDouble(value.getText()) < 3.5) {
-            slider.sendKeys(Keys.ARROW_RIGHT);
+        // Desired target value
+        String target = "3.5";
+
+        // Move the slider until the target value is reached
+        while (!value.getText().equals(target)) {
+            double currentValue = Double.parseDouble(value.getText());
+            double targetValue = Double.parseDouble(target);
+
+            // If current value is less than target, move slider right
+            if (currentValue < targetValue) {
+                slider.sendKeys(Keys.ARROW_RIGHT);
+            }
+            // If current value is more than target, move slider left
+            else {
+                slider.sendKeys(Keys.ARROW_LEFT);
+            }
         }
 
-        double actualValue = Double.parseDouble(value.getText());
-        Assert.assertEquals(actualValue, 3.5, "Slider value should be exactly 3.5");
+        // Assert that the slider has reached the exact target value
+        Assert.assertEquals(value.getText(), target,
+                "Slider did not move to the expected value " + target);
     }
 }

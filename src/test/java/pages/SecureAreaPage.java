@@ -1,31 +1,38 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class SecureAreaPage {
 
-    private final WebDriver driver;
+    private WebDriver driver;
+    private WebDriverWait wait;
 
-    @FindBy(id = "flash")
-    private WebElement flashMessage;
-
-    @FindBy(css = "a[href='/logout']")
-    private WebElement logoutButton;
+    private By flashMessage = By.id("flash");
+    private By logoutButton = By.cssSelector(".icon-2x.icon-signout");
 
     public SecureAreaPage(WebDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(driver, this);
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
     public String getSuccessMessage() {
-        return flashMessage.getText();
+        WebElement flash = wait.until(ExpectedConditions.visibilityOfElementLocated(flashMessage));
+        return flash.getText().trim(); // обрізаємо пробіли та символ ×
+    }
+
+    public String getLogoutMessage() {
+        WebElement flash = wait.until(ExpectedConditions.visibilityOfElementLocated(flashMessage));
+        return flash.getText().trim(); // обрізаємо пробіли та символ ×
     }
 
     public LoginPage logout() {
-        logoutButton.click();
+        wait.until(ExpectedConditions.elementToBeClickable(logoutButton)).click();
         return new LoginPage(driver);
     }
 }

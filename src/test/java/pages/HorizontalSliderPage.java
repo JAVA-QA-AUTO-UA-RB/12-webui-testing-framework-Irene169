@@ -41,16 +41,18 @@ public class HorizontalSliderPage {
 
         slider.sendKeys(Keys.HOME);
 
-        while (!rangeValue.getText().equals(targetValue)) {
-            double current = Double.parseDouble(rangeValue.getText());
-            double target = Double.parseDouble(targetValue);
+        double current = Double.parseDouble(rangeValue.getText());
+        double target = Double.parseDouble(targetValue);
 
+        while (Math.abs(current - target) > 0.01) {
             if (current < target) {
                 slider.sendKeys(Keys.ARROW_RIGHT);
             } else {
                 slider.sendKeys(Keys.ARROW_LEFT);
             }
+            current = Double.parseDouble(rangeValue.getText());
         }
+
         return this;
     }
 

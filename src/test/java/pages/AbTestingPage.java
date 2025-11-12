@@ -15,23 +15,20 @@ public class AbTestingPage {
     private final WebDriverWait wait;
     private static final String PAGE_URL = "https://the-internet.herokuapp.com/abtest";
 
-    // Header element
     @FindBy(css = "div.example h3")
     private WebElement header;
 
-    public AbTestingPage(WebDriver driver, WebDriverWait wait) {
+    public AbTestingPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = wait;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
 
-    // Open the page
     public AbTestingPage open() {
         driver.get(PAGE_URL);
         return this;
     }
 
-    // Get the header text
     public String getHeaderText() {
         wait.until(ExpectedConditions.visibilityOf(header));
         return header.getText();

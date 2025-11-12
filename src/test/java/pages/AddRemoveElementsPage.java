@@ -14,38 +14,33 @@ public class AddRemoveElementsPage {
     private final WebDriverWait wait;
     private static final String PAGE_URL = "https://the-internet.herokuapp.com/add_remove_elements/";
 
-    // Locators
     private final By addButton = By.cssSelector("button[onclick='addElement()']");
     private final By deleteButtons = By.cssSelector("button.added-manually");
 
-    public AddRemoveElementsPage(WebDriver driver, WebDriverWait wait) {
+    public AddRemoveElementsPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = wait;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         PageFactory.initElements(driver, this);
     }
 
-    // Open the page
     public AddRemoveElementsPage open() {
         driver.get(PAGE_URL);
         return this;
     }
 
-    // Add N elements
     public AddRemoveElementsPage addElements(int count) {
         for (int i = 0; i < count; i++) {
             driver.findElement(addButton).click();
         }
-        // Wait until the expected number of delete buttons appear
+
         wait.until(ExpectedConditions.numberOfElementsToBe(deleteButtons, count));
         return this;
     }
 
-    // Get the number of Delete buttons
     public int getDeleteButtonsCount() {
         return driver.findElements(deleteButtons).size();
     }
 
-    // Remove all elements
     public AddRemoveElementsPage removeAllElements() {
         while (!driver.findElements(deleteButtons).isEmpty()) {
             driver.findElements(deleteButtons).get(0).click();
@@ -56,7 +51,6 @@ public class AddRemoveElementsPage {
         return this;
     }
 
-    // Check if all elements are removed
     public boolean areAllElementsRemoved() {
         return driver.findElements(deleteButtons).isEmpty();
     }

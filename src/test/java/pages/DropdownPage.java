@@ -25,21 +25,18 @@ public class DropdownPage {
         PageFactory.initElements(driver, this);
     }
 
-    // Open the dropdown page
     public DropdownPage open() {
         driver.get(PAGE_URL);
         return this;
     }
 
-    // Select option by value
-    public DropdownPage selectOptionByValue(String value) {
+    public DropdownPage selectOptionByVisibleText(String value) {
         wait.until(ExpectedConditions.visibilityOf(dropdown));
         Select select = new Select(dropdown);
-        select.selectByValue(value);
+        select.selectByVisibleText(value);
         return this;
     }
 
-    // Get selected option text
     public String getSelectedOptionText() {
         Select select = new Select(dropdown);
         return select.getFirstSelectedOption().getText();

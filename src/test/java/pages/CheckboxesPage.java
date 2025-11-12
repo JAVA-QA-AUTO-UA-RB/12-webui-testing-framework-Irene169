@@ -20,13 +20,11 @@ public class CheckboxesPage {
         PageFactory.initElements(driver, this);
     }
 
-    // Open the page
     public CheckboxesPage open() {
         driver.get(PAGE_URL);
         return this;
     }
 
-    // Select all checkboxes
     public CheckboxesPage selectAll() {
         for (WebElement checkbox : checkboxes) {
             if (!checkbox.isSelected()) checkbox.click();
@@ -34,7 +32,6 @@ public class CheckboxesPage {
         return this;
     }
 
-    // Check if all checkboxes are selected
     public boolean areAllSelected() {
         for (WebElement checkbox : checkboxes) {
             if (!checkbox.isSelected()) return false;
@@ -42,7 +39,6 @@ public class CheckboxesPage {
         return true;
     }
 
-    // Return the total number of checkboxes
     public int getCheckboxCount() {
         return checkboxes.size();
     }

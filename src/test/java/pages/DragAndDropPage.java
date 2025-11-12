@@ -28,7 +28,6 @@ public class DragAndDropPage {
         PageFactory.initElements(driver, this);
     }
 
-    // Open the drag and drop page
     public DragAndDropPage open() {
         driver.get(PAGE_URL);
         wait.until(ExpectedConditions.visibilityOf(columnA));
@@ -36,19 +35,16 @@ public class DragAndDropPage {
         return this;
     }
 
-    // Perform drag and drop from column A to column B
     public DragAndDropPage performDragAndDrop() {
         Actions actions = new Actions(driver);
         actions.dragAndDrop(columnA, columnB).perform();
         return this;
     }
 
-    // Get the text in Column A
     public String getTextInColumnA() {
         return columnA.getText();
     }
 
-    // Get the text in Column B
     public String getTextInColumnB() {
         return columnB.getText();
     }
